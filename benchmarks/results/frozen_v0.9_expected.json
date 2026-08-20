@@ -1,0 +1,173 @@
+{
+  "engine": "SRX CP-1F.2 v0.9",
+  "devinit": {
+    "corpus": "devinit",
+    "versions": 6,
+    "transitions": 5,
+    "first_snapshot_bytes": 920,
+    "conventional_cumulative_bytes": 1638,
+    "structural_only_cumulative_bytes": 1881,
+    "srx_adaptive_cumulative_bytes": 1638,
+    "gain_percent": 0.0,
+    "transition_only_gain_percent": 0.0,
+    "structural_selected": 0,
+    "exact_restore": true,
+    "rows": [
+      {
+        "from": "devinit.schema-1.0",
+        "to": "devinit.schema-2.0",
+        "conventional": 173,
+        "structural": 265,
+        "selected": "CONVENTIONAL",
+        "string_delta_ops": 7,
+        "residual_kind": "FORMAT_GAPS",
+        "residual_bytes": 17
+      },
+      {
+        "from": "devinit.schema-2.0",
+        "to": "devinit.schema-3.0",
+        "conventional": 167,
+        "structural": 274,
+        "selected": "CONVENTIONAL",
+        "string_delta_ops": 1,
+        "residual_kind": "FORMAT_GAPS",
+        "residual_bytes": 10
+      },
+      {
+        "from": "devinit.schema-3.0",
+        "to": "devinit.schema-4.0",
+        "conventional": 130,
+        "structural": 152,
+        "selected": "CONVENTIONAL",
+        "string_delta_ops": 1,
+        "residual_kind": "FORMAT_GAPS",
+        "residual_bytes": 10
+      },
+      {
+        "from": "devinit.schema-4.0",
+        "to": "devinit.schema-5.0",
+        "conventional": 118,
+        "structural": 118,
+        "selected": "CONVENTIONAL",
+        "string_delta_ops": 1,
+        "residual_kind": "FORMAT_GAPS",
+        "residual_bytes": 10
+      },
+      {
+        "from": "devinit.schema-5.0",
+        "to": "devinit.schema-6.0",
+        "conventional": 130,
+        "structural": 152,
+        "selected": "CONVENTIONAL",
+        "string_delta_ops": 1,
+        "residual_kind": "FORMAT_GAPS",
+        "residual_bytes": 10
+      }
+    ]
+  },
+  "vite": {
+    "corpus": "vite",
+    "versions": 10,
+    "transitions": 9,
+    "first_snapshot_bytes": 1796,
+    "conventional_cumulative_bytes": 2952,
+    "structural_only_cumulative_bytes": 3025,
+    "srx_adaptive_cumulative_bytes": 2919,
+    "gain_percent": 1.1178861788617886,
+    "transition_only_gain_percent": 2.8546712802768166,
+    "structural_selected": 4,
+    "exact_restore": true,
+    "rows": [
+      {
+        "from": "v7.0.0",
+        "to": "v7.0.1",
+        "conventional": 133,
+        "structural": 146,
+        "selected": "CONVENTIONAL",
+        "string_delta_ops": 7,
+        "residual_kind": "NONE",
+        "residual_bytes": 0
+      },
+      {
+        "from": "v7.0.1",
+        "to": "v7.0.2",
+        "conventional": 109,
+        "structural": 100,
+        "selected": "STRUCTURAL",
+        "string_delta_ops": 1,
+        "residual_kind": "NONE",
+        "residual_bytes": 0
+      },
+      {
+        "from": "v7.0.2",
+        "to": "v7.0.3",
+        "conventional": 144,
+        "structural": 163,
+        "selected": "CONVENTIONAL",
+        "string_delta_ops": 6,
+        "residual_kind": "NONE",
+        "residual_bytes": 0
+      },
+      {
+        "from": "v7.0.3",
+        "to": "v7.0.4",
+        "conventional": 113,
+        "structural": 103,
+        "selected": "STRUCTURAL",
+        "string_delta_ops": 1,
+        "residual_kind": "NONE",
+        "residual_bytes": 0
+      },
+      {
+        "from": "v7.0.4",
+        "to": "v7.0.5",
+        "conventional": 136,
+        "structural": 143,
+        "selected": "CONVENTIONAL",
+        "string_delta_ops": 6,
+        "residual_kind": "NONE",
+        "residual_bytes": 0
+      },
+      {
+        "from": "v7.0.5",
+        "to": "v7.0.6",
+        "conventional": 128,
+        "structural": 130,
+        "selected": "CONVENTIONAL",
+        "string_delta_ops": 5,
+        "residual_kind": "NONE",
+        "residual_bytes": 0
+      },
+      {
+        "from": "v7.0.6",
+        "to": "v7.0.7",
+        "conventional": 112,
+        "structural": 107,
+        "selected": "STRUCTURAL",
+        "string_delta_ops": 2,
+        "residual_kind": "NONE",
+        "residual_bytes": 0
+      },
+      {
+        "from": "v7.0.7",
+        "to": "v7.0.8",
+        "conventional": 109,
+        "structural": 100,
+        "selected": "STRUCTURAL",
+        "string_delta_ops": 1,
+        "residual_kind": "NONE",
+        "residual_bytes": 0
+      },
+      {
+        "from": "v7.0.8",
+        "to": "v7.1.0",
+        "conventional": 172,
+        "structural": 237,
+        "selected": "CONVENTIONAL",
+        "string_delta_ops": 9,
+        "residual_kind": "NONE",
+        "residual_bytes": 0
+      }
+    ]
+  }
+}

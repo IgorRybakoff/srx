@@ -1,0 +1,15 @@
+=== SRX Temporal / Evidence demo ===
+
+--- timeline: database.pool_size ---
+v1: key_added None -> 4 verified=True
+v2: value_changed 4 -> 16 verified=True
+v4: value_changed 16 -> 32 verified=True
+
+--- selective reconstruction: v3/config.json ---
+bytes=162
+sha256=741fc376bd59e13a43357fef76dd3408b915597629ca4333b142ae2812ffddee
+verification_passed=True
+byte_equal_to_original=True
+
+--- reconstructed key: database.driver ---
+postgres

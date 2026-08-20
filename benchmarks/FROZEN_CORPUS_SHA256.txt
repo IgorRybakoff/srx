@@ -1,0 +1,16 @@
+bdc9677d0756b810be430f1bd74775d7a2dd13ba4670267cd05db532a386026f  benchmarks/corpora/devinit/devinit.schema-1.0.json
+671af56bd5585774601ef3c458865c33e27ce431411bad799f8efdb784655d37  benchmarks/corpora/devinit/devinit.schema-2.0.json
+68594c8ac0f574dbc58f08366013e626b869021c492eeccbeab9c6783bcf2872  benchmarks/corpora/devinit/devinit.schema-3.0.json
+db747343dc0d29751bdbd84190a61b8d2fef5dd246255eb6dbf128d30925567e  benchmarks/corpora/devinit/devinit.schema-4.0.json
+4e0831f440f44d8b4bd2dadd732116b1e76a56086fd104673bd42146b3350bf9  benchmarks/corpora/devinit/devinit.schema-5.0.json
+0fb0a8a168d53e1bc7b33de09c1ba122daff72db5bde390887ab6e6e717b686d  benchmarks/corpora/devinit/devinit.schema-6.0.json
+96ffc10a4b0642037060f1973bad8ff361237f00e8673557376ca248ff83cdb7  benchmarks/corpora/vite/v7.0.0.json
+1ffbd3252353794b960b2299c413903e08d36093a1c905463bb56bd4cdf61270  benchmarks/corpora/vite/v7.0.1.json
+631c79e0af4ac778b8ecb11d1f5a69b07f708909930e5deccfd87fe60da7f175  benchmarks/corpora/vite/v7.0.2.json
+f5f470a16bc93720c8a0905399d5fefd00a1c705d1c170381642e0d37b39fb40  benchmarks/corpora/vite/v7.0.3.json
+85383fc80336650480e3e4f4e37cb1a580cdb991e24768f22558bab2542dc783  benchmarks/corpora/vite/v7.0.4.json
+344b386f00c24f7c73a9d699b449f0689f5193878bafd32b9e7d14b8eeb7cdac  benchmarks/corpora/vite/v7.0.5.json
+82d85cd2a2a300f30cdcfb64b8cd762a2eab6d951453f8d3000871f97138b778  benchmarks/corpora/vite/v7.0.6.json
+d2c6ab0eac4704a451a80bb949707687bf7374592514ed65fa509403485d418e  benchmarks/corpora/vite/v7.0.7.json
+50956b521bdd671a03c255f7c012bda03ed2486c768a331feef34b4ca17f9567  benchmarks/corpora/vite/v7.0.8.json
+753898e4573e8c499589e4f642e3521ce65d438a8eb7421df09cbe5becd40848  benchmarks/corpora/vite/v7.1.0.json

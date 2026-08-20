@@ -1,0 +1,8 @@
+{
+  "app": {"name": "myservice", "version": "1.0.0"},
+  "database": {
+    "driver": "postgres",
+    "pool_size": 16,
+    "url": "postgres://localhost/mydb"
+  }
+}

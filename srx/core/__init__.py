@@ -1,0 +1,116 @@
+"""SRX Core engine package."""
+
+from srx.core.codec import decode_transform, encode_transform_candidates
+from srx.core.compression import unzpatch, unzstd, zpatch, zstd
+from srx.core.constants import (
+    E_CTX,
+    E_RAW,
+    E_ZSTD,
+    MAGIC,
+    OP_ADD,
+    OP_LDELETE,
+    OP_LINSERT,
+    OP_LMOVE,
+    OP_LREORDER,
+    OP_REMOVE,
+    OP_SDELTA,
+    OP_SET,
+    REC_BSDIFF,
+    REC_SNAPSHOT,
+    REC_STRUCT,
+    REC_ZSTD_PATCH,
+    RES_FORMAT_GAPS,
+    RES_NONE,
+    RES_PATCH,
+)
+from srx.core.diff import diff_json, diff_json_variants
+from srx.core.evaluate import evaluate_structural
+from srx.core.format_gaps import apply_format_gaps, encode_format_gaps, json_token_gaps
+from srx.core.ops import apply_ops, get_at, parent_at
+from srx.core.paths import (
+    build_paths,
+    decode_path_ctx,
+    decode_path_raw,
+    encode_path_ctx,
+    encode_path_raw,
+)
+from srx.core.record import (
+    create_record,
+    decode_structural_payload,
+    encode_structural_payload,
+    parse_record,
+)
+from srx.core.sdelta import apply_sdelta, encode_sdelta_payload, str_delta_parts
+from srx.core.sequence_ops import (
+    array_alternatives,
+    insert_delete_ops,
+    reorder_perm,
+    seq_edit_ops,
+)
+from srx.core.varint import (
+    decode_bytes,
+    decode_uvarint,
+    encode_bytes,
+    encode_uvarint,
+    sha256,
+    sha256_hex,
+)
+
+__all__ = [
+    "MAGIC",
+    "REC_SNAPSHOT",
+    "REC_ZSTD_PATCH",
+    "REC_BSDIFF",
+    "REC_STRUCT",
+    "OP_SET",
+    "OP_ADD",
+    "OP_REMOVE",
+    "OP_LINSERT",
+    "OP_LDELETE",
+    "OP_LMOVE",
+    "OP_LREORDER",
+    "OP_SDELTA",
+    "E_RAW",
+    "E_ZSTD",
+    "E_CTX",
+    "RES_NONE",
+    "RES_FORMAT_GAPS",
+    "RES_PATCH",
+    "sha256",
+    "sha256_hex",
+    "encode_uvarint",
+    "decode_uvarint",
+    "encode_bytes",
+    "decode_bytes",
+    "str_delta_parts",
+    "encode_sdelta_payload",
+    "apply_sdelta",
+    "json_token_gaps",
+    "encode_format_gaps",
+    "apply_format_gaps",
+    "build_paths",
+    "encode_path_raw",
+    "decode_path_raw",
+    "encode_path_ctx",
+    "decode_path_ctx",
+    "seq_edit_ops",
+    "insert_delete_ops",
+    "reorder_perm",
+    "array_alternatives",
+    "diff_json",
+    "diff_json_variants",
+    "apply_ops",
+    "get_at",
+    "parent_at",
+    "zstd",
+    "unzstd",
+    "zpatch",
+    "unzpatch",
+    "encode_transform_candidates",
+    "decode_transform",
+    "create_record",
+    "parse_record",
+    "encode_structural_payload",
+    "decode_structural_payload",
+    "evaluate_structural",
+]

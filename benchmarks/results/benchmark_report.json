@@ -1,0 +1,201 @@
+{
+  "engine": "SRX Public v0.1 Core",
+  "devinit": {
+    "corpus": "devinit",
+    "versions_count": 6,
+    "transitions_count": 5,
+    "first_snapshot_bytes": 920,
+    "conventional_cumulative_bytes": 1638,
+    "structural_only_cumulative_bytes": 1881,
+    "srx_adaptive_cumulative_bytes": 1638,
+    "total_gain_percent": 0.0,
+    "transition_gain_percent": 0.0,
+    "structural_selected_count": 0,
+    "all_exact_restore_verified": true,
+    "transitions": [
+      {
+        "from": "devinit.schema-1.0",
+        "to": "devinit.schema-2.0",
+        "conventional_bytes": 173,
+        "structural_bytes": 265,
+        "selected_strategy": "CONVENTIONAL",
+        "string_delta_ops": 7,
+        "residual_kind": "FORMAT_GAPS",
+        "residual_bytes": 17,
+        "target_sha256": "671af56bd5585774601ef3c458865c33e27ce431411bad799f8efdb784655d37",
+        "exact_restore_verified": true
+      },
+      {
+        "from": "devinit.schema-2.0",
+        "to": "devinit.schema-3.0",
+        "conventional_bytes": 167,
+        "structural_bytes": 274,
+        "selected_strategy": "CONVENTIONAL",
+        "string_delta_ops": 1,
+        "residual_kind": "FORMAT_GAPS",
+        "residual_bytes": 10,
+        "target_sha256": "68594c8ac0f574dbc58f08366013e626b869021c492eeccbeab9c6783bcf2872",
+        "exact_restore_verified": true
+      },
+      {
+        "from": "devinit.schema-3.0",
+        "to": "devinit.schema-4.0",
+        "conventional_bytes": 130,
+        "structural_bytes": 152,
+        "selected_strategy": "CONVENTIONAL",
+        "string_delta_ops": 1,
+        "residual_kind": "FORMAT_GAPS",
+        "residual_bytes": 10,
+        "target_sha256": "db747343dc0d29751bdbd84190a61b8d2fef5dd246255eb6dbf128d30925567e",
+        "exact_restore_verified": true
+      },
+      {
+        "from": "devinit.schema-4.0",
+        "to": "devinit.schema-5.0",
+        "conventional_bytes": 118,
+        "structural_bytes": 118,
+        "selected_strategy": "CONVENTIONAL",
+        "string_delta_ops": 1,
+        "residual_kind": "FORMAT_GAPS",
+        "residual_bytes": 10,
+        "target_sha256": "4e0831f440f44d8b4bd2dadd732116b1e76a56086fd104673bd42146b3350bf9",
+        "exact_restore_verified": true
+      },
+      {
+        "from": "devinit.schema-5.0",
+        "to": "devinit.schema-6.0",
+        "conventional_bytes": 130,
+        "structural_bytes": 152,
+        "selected_strategy": "CONVENTIONAL",
+        "string_delta_ops": 1,
+        "residual_kind": "FORMAT_GAPS",
+        "residual_bytes": 10,
+        "target_sha256": "0fb0a8a168d53e1bc7b33de09c1ba122daff72db5bde390887ab6e6e717b686d",
+        "exact_restore_verified": true
+      }
+    ]
+  },
+  "vite": {
+    "corpus": "vite",
+    "versions_count": 10,
+    "transitions_count": 9,
+    "first_snapshot_bytes": 1796,
+    "conventional_cumulative_bytes": 2952,
+    "structural_only_cumulative_bytes": 3025,
+    "srx_adaptive_cumulative_bytes": 2919,
+    "total_gain_percent": 1.12,
+    "transition_gain_percent": 2.85,
+    "structural_selected_count": 4,
+    "all_exact_restore_verified": true,
+    "transitions": [
+      {
+        "from": "v7.0.0",
+        "to": "v7.0.1",
+        "conventional_bytes": 133,
+        "structural_bytes": 146,
+        "selected_strategy": "CONVENTIONAL",
+        "string_delta_ops": 7,
+        "residual_kind": "NONE",
+        "residual_bytes": 0,
+        "target_sha256": "1ffbd3252353794b960b2299c413903e08d36093a1c905463bb56bd4cdf61270",
+        "exact_restore_verified": true
+      },
+      {
+        "from": "v7.0.1",
+        "to": "v7.0.2",
+        "conventional_bytes": 109,
+        "structural_bytes": 100,
+        "selected_strategy": "STRUCTURAL",
+        "string_delta_ops": 1,
+        "residual_kind": "NONE",
+        "residual_bytes": 0,
+        "target_sha256": "631c79e0af4ac778b8ecb11d1f5a69b07f708909930e5deccfd87fe60da7f175",
+        "exact_restore_verified": true
+      },
+      {
+        "from": "v7.0.2",
+        "to": "v7.0.3",
+        "conventional_bytes": 144,
+        "structural_bytes": 163,
+        "selected_strategy": "CONVENTIONAL",
+        "string_delta_ops": 6,
+        "residual_kind": "NONE",
+        "residual_bytes": 0,
+        "target_sha256": "f5f470a16bc93720c8a0905399d5fefd00a1c705d1c170381642e0d37b39fb40",
+        "exact_restore_verified": true
+      },
+      {
+        "from": "v7.0.3",
+        "to": "v7.0.4",
+        "conventional_bytes": 113,
+        "structural_bytes": 103,
+        "selected_strategy": "STRUCTURAL",
+        "string_delta_ops": 1,
+        "residual_kind": "NONE",
+        "residual_bytes": 0,
+        "target_sha256": "85383fc80336650480e3e4f4e37cb1a580cdb991e24768f22558bab2542dc783",
+        "exact_restore_verified": true
+      },
+      {
+        "from": "v7.0.4",
+        "to": "v7.0.5",
+        "conventional_bytes": 136,
+        "structural_bytes": 143,
+        "selected_strategy": "CONVENTIONAL",
+        "string_delta_ops": 6,
+        "residual_kind": "NONE",
+        "residual_bytes": 0,
+        "target_sha256": "344b386f00c24f7c73a9d699b449f0689f5193878bafd32b9e7d14b8eeb7cdac",
+        "exact_restore_verified": true
+      },
+      {
+        "from": "v7.0.5",
+        "to": "v7.0.6",
+        "conventional_bytes": 128,
+        "structural_bytes": 130,
+        "selected_strategy": "CONVENTIONAL",
+        "string_delta_ops": 5,
+        "residual_kind": "NONE",
+        "residual_bytes": 0,
+        "target_sha256": "82d85cd2a2a300f30cdcfb64b8cd762a2eab6d951453f8d3000871f97138b778",
+        "exact_restore_verified": true
+      },
+      {
+        "from": "v7.0.6",
+        "to": "v7.0.7",
+        "conventional_bytes": 112,
+        "structural_bytes": 107,
+        "selected_strategy": "STRUCTURAL",
+        "string_delta_ops": 2,
+        "residual_kind": "NONE",
+        "residual_bytes": 0,
+        "target_sha256": "d2c6ab0eac4704a451a80bb949707687bf7374592514ed65fa509403485d418e",
+        "exact_restore_verified": true
+      },
+      {
+        "from": "v7.0.7",
+        "to": "v7.0.8",
+        "conventional_bytes": 109,
+        "structural_bytes": 100,
+        "selected_strategy": "STRUCTURAL",
+        "string_delta_ops": 1,
+        "residual_kind": "NONE",
+        "residual_bytes": 0,
+        "target_sha256": "50956b521bdd671a03c255f7c012bda03ed2486c768a331feef34b4ca17f9567",
+        "exact_restore_verified": true
+      },
+      {
+        "from": "v7.0.8",
+        "to": "v7.1.0",
+        "conventional_bytes": 172,
+        "structural_bytes": 237,
+        "selected_strategy": "CONVENTIONAL",
+        "string_delta_ops": 9,
+        "residual_kind": "NONE",
+        "residual_bytes": 0,
+        "target_sha256": "753898e4573e8c499589e4f642e3521ce65d438a8eb7421df09cbe5becd40848",
+        "exact_restore_verified": true
+      }
+    ]
+  }
+}

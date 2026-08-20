@@ -1,0 +1,58 @@
+=== SRX Core CLI demo ===
+
+--- structural diff v1 -> v2 ---
+============================================================
+SRX Structural Diff & Transformation Result
+============================================================
+Reference : snapshots/v1/config.json (151 bytes | af66f8c4987b582e...)
+Target    : snapshots/v2/config.json (152 bytes | f50efce71ac2bed2...)
+------------------------------------------------------------
+Logical Candidate   : BASE
+Encoding            : CTX_PATHS
+Operations Count    : 1
+String Delta Ops    : 0
+Residual Kind       : FORMAT_GAPS (8 bytes)
+Transform Bytes     : 8 bytes (raw: 25 bytes)
+Total Record Size   : 107 bytes
+Exact Verification  : PASS (SHA-256 matched)
+Output Record File  : .demo_work/v1_v2.srx
+============================================================
+
+--- reconstruct v2 ---
+Successfully reconstructed 152 bytes -> .demo_work/restored_v2.json
+Target SHA-256: f50efce71ac2bed2ef98a1f31a320d9958307b4efd329ab9bea470437f02327a
+
+--- verify ---
+============================================================
+SRX Exact Reconstruction Verification Report
+============================================================
+Record File     : .demo_work/v1_v2.srx
+Record Type     : STRUCTURAL
+Record Size     : 107 bytes
+Expected Target : f50efce71ac2bed2ef98a1f31a320d9958307b4efd329ab9bea470437f02327a
+Actual Target   : f50efce71ac2bed2ef98a1f31a320d9958307b4efd329ab9bea470437f02327a
+Reference Hash  : af66f8c4987b582ee428546bf25d17d7388b966aca238a32cac23e84fb50e04a
+Target Size     : 152 bytes
+------------------------------------------------------------
+VERIFICATION RESULT: [ PASS ] Exact match verified.
+============================================================
+
+--- record stats ---
+============================================================
+SRX Record Container Statistics
+============================================================
+File                  : .demo_work/v1_v2.srx
+Total Record Size     : 107 bytes
+Record Type           : STRUCTURAL
+Reference SHA-256     : af66f8c4987b582ee428546bf25d17d7388b966aca238a32cac23e84fb50e04a
+Target SHA-256        : f50efce71ac2bed2ef98a1f31a320d9958307b4efd329ab9bea470437f02327a
+Target Uncompressed   : 152 bytes
+Payload Size          : 25 bytes
+------------------------------------------------------------
+Structural Payload Breakdown:
+  Transform Bytes     : 8 bytes (CTX_PATHS)
+  Residual Type       : FORMAT_GAPS (8 bytes)
+============================================================
+
+--- byte equality ---
+PASS: restored_v2.json is byte-for-byte identical to v2/config.json

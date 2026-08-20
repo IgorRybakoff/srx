@@ -1,0 +1,12 @@
+{
+  "app": {"name": "myservice", "version": "1.0.0"},
+  "database": {
+    "driver": "postgres",
+    "pool_size": 32,
+    "url": "postgres://localhost/mydb"
+  },
+  "cache": {
+    "driver": "redis",
+    "ttl": 3600
+  }
+}
