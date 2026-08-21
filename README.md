@@ -1,5 +1,7 @@
 # SRX — Semantic Reconstructive eXchange
 
+[![tests](https://github.com/IgorRybakoff/srx/actions/workflows/tests.yml/badge.svg)](https://github.com/IgorRybakoff/srx/actions/workflows/tests.yml)
+
 **Exact reconstruction and version intelligence for evolving structured data.**
 
 > **Ask the history. Prove the answer.**
