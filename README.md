@@ -143,6 +143,38 @@ bash demo/run_temporal_demo.sh
 
 The CI demo verifies that the reconstructed historical file is byte-for-byte identical to the original and that SHA-256 verification passes.
 
+### Real Git history demo
+
+SRX also ships demos that do **not** create synthetic snapshots. They read actual first-parent commits through `GitRepoConnector`, ingest real project history, persist and reload the temporal index, verify evidence, and reconstruct historical files byte-for-byte against `git show`.
+
+Run against any local repository:
+
+```bash
+python demo/real_history/run.py --repo . --limit 50
+```
+
+A pinned 50-commit Vite v7.1.0 demo is included for a larger real project:
+
+```bash
+bash demo/real_history/run_vite_50.sh
+```
+
+Observed CI result for the pinned Vite run:
+
+```text
+Imported real commits: 50
+Tracked paths: README.md, packages/vite/package.json
+Persistence reload: PASS (50 versions)
+Nested key: packages/vite/package.json :: version
+7.0.6 -> 7.1.0-beta.0 -> 7.1.0-beta.1 -> 7.1.0
+Verified evidence: 4/4
+SRX verification: PASS
+bit-perfect vs git show: PASS
+source SHA match: PASS
+```
+
+This is a product demonstration, not a compression benchmark. The external project is pinned to Vite v7.1.0 so the demonstrated history does not drift with Vite `HEAD`.
+
 ### Core CLI
 
 The lower-level record CLI remains available:
@@ -211,11 +243,13 @@ See [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md).
 ```bash
 python tests/run_all_tests.py
 bash demo/run_temporal_demo.sh
+python demo/real_history/run.py --repo . --limit 50
+bash demo/real_history/run_vite_50.sh
 python benchmarks/verify_corpus_hashes.py
 python benchmarks/verify_frozen_regression.py
 ```
 
-The current public gate contains **57 unit/integration tests**. CI runs on Python 3.10 and 3.13, executes the Temporal CLI demo, verifies 16 frozen corpus hashes, and checks the frozen benchmark regression.
+The current public gate contains **57 unit/integration tests**. CI runs on Python 3.10 and 3.13, executes the Temporal CLI demo, runs both the repository-history and pinned Vite 50-commit demos on Python 3.13, verifies 16 frozen corpus hashes, and checks the frozen benchmark regression.
 
 ## Project direction
 
