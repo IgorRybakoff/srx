@@ -176,6 +176,81 @@ class TemporalPersistenceTests(unittest.TestCase):
             representation = loaded.cas.get(entry.representation_ref)
             self.assertEqual(representation[:5], b"SRXH1")
 
+    def test_temporal_json_output_is_machine_readable_and_verified(self):
+        store = self.tmp / "json-store"
+        snapshots = [
+            self._snapshot("v1", 4),
+            self._snapshot("v2", 16),
+            self._snapshot("v3", 16, "postgres"),
+            self._snapshot("v4", 32, "postgres"),
+        ]
+
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(cli_entry(["temporal", "init", str(store)]), 0)
+            for number, snapshot in enumerate(snapshots, start=1):
+                self.assertEqual(
+                    cli_entry(
+                        [
+                            "temporal",
+                            "add",
+                            str(store),
+                            str(snapshot),
+                            "-m",
+                            f"version {number}",
+                        ]
+                    ),
+                    0,
+                )
+
+        timeline_stdout = io.StringIO()
+        with contextlib.redirect_stdout(timeline_stdout):
+            self.assertEqual(
+                cli_entry(
+                    [
+                        "temporal",
+                        "timeline",
+                        str(store),
+                        "--key",
+                        "database.pool_size",
+                        "--file",
+                        "config.json",
+                        "--json",
+                    ]
+                ),
+                0,
+            )
+        timeline = json.loads(timeline_stdout.getvalue())
+        self.assertEqual(timeline["query"], {"key": "database.pool_size", "file": "config.json"})
+        self.assertEqual(timeline["hit_count"], 3)
+        self.assertTrue(timeline["all_verified"])
+        self.assertEqual([row["version_id"] for row in timeline["hits"]], ["v1", "v2", "v4"])
+        self.assertTrue(all(row["verification_passed"] for row in timeline["hits"]))
+
+        evidence_stdout = io.StringIO()
+        with contextlib.redirect_stdout(evidence_stdout):
+            self.assertEqual(
+                cli_entry(
+                    [
+                        "temporal",
+                        "evidence",
+                        str(store),
+                        "--key",
+                        "database.pool_size",
+                        "--file",
+                        "config.json",
+                        "--json",
+                    ]
+                ),
+                0,
+            )
+        evidence = json.loads(evidence_stdout.getvalue())
+        self.assertEqual(evidence["evidence_count"], 3)
+        self.assertTrue(evidence["all_verified"])
+        self.assertEqual(
+            [row["current_value_ref"] for row in evidence["evidence"]],
+            ["4", "16", "32"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
