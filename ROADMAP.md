@@ -26,12 +26,13 @@ The primary product hypothesis is not universal compression. Structural and delt
 - evidence verification through exact reconstruction + independent source SHA-256;
 - deterministic parent-before-child causal ordering;
 - end-to-end Temporal CLI demo in CI;
+- real-Git-history demo against the SRX repository itself;
+- pinned Vite v7.1.0 50-commit demo with verified nested-key history and byte-perfect historical reconstruction;
 - frozen DevInit/Vite regression gate.
 
 ## v0.1.x — near term
 
 - README/demo polish around the version-intelligence workflow;
-- real-project temporal demo with a longer history;
 - third public real-history benchmark corpus;
 - more connector adversarial tests;
 - clearer machine-readable CLI output for temporal/evidence queries;
