@@ -305,6 +305,8 @@ Important current limitations include:
 - rename identity is represented as deterministic delete + add;
 - selective reconstruction is guaranteed at file level, not physical subtree level;
 - no signed manifests/MAC in v0.1;
+- `TemporalIndex` is DAG-capable, but the shipped `srx temporal add` command creates a linear latest-parent history only;
+- the temporal store is single-writer in v0.1; manifest replacement is atomic, but there is no database-grade locking or crash-durable transaction across CAS + metadata;
 - only local-folder and local-Git connectors are shipped;
 - natural-language historical queries are not part of the deterministic core.
 
@@ -321,7 +323,7 @@ python benchmarks/verify_corpus_hashes.py
 python benchmarks/verify_frozen_regression.py
 ```
 
-The current public gate contains **58 unit/integration tests**. CI runs on Python 3.10 and 3.13, executes the Temporal CLI demo, runs both the repository-history and pinned Vite 50-commit demos on Python 3.13, verifies 16 frozen corpus hashes, and checks the frozen benchmark regression.
+The current public gate contains **60 unit/integration tests**. CI runs on Python 3.10 and 3.13, executes the Temporal CLI demo, runs both the repository-history and pinned Vite 50-commit demos on Python 3.13, verifies 16 frozen corpus hashes, and checks the frozen benchmark regression.
 
 ## Project direction
 

@@ -40,3 +40,17 @@ No LLM is part of the deterministic core. Natural-language query planning is fut
 The standalone SRX record format verifies reconstructed bytes against the target SHA-256 embedded in the record. It does not claim cryptographic authenticity if an attacker can rewrite both record payload and header consistently.
 
 The integrated Temporal/Evidence path adds a content-addressed record digest plus an independent source-file SHA-256. Signed manifests / MACs are future hardening. See `TRUST_MODEL.md`.
+
+## 7. Temporal CLI topology
+
+`TemporalIndex` stores explicit `parent_ids` and enforces parent-before-child causal invariants, so the engine data model is DAG-capable. However, the public `srx temporal add` command in v0.1 automatically makes the latest committed version the sole parent of the next version.
+
+The shipped persistent CLI therefore creates a linear history only. Branch creation, explicit parent selection, and merge commits are not exposed by the v0.1 CLI.
+
+## 8. Temporal store durability and concurrency
+
+The temporal manifest is written to a same-directory temporary file and replaced with `os.replace`, so readers do not observe a partially written manifest during normal single-writer operation.
+
+v0.1 does not provide multi-writer locking, distributed coordination, or a crash-durable transaction spanning both CAS writes and manifest replacement. It also does not currently issue an explicit `fsync` durability protocol for the full store transaction.
+
+The persistent temporal store should therefore be treated as **single-writer** in v0.1. Atomic manifest replacement is an integrity measure, not a claim of database-grade transactional durability.
