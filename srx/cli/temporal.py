@@ -8,6 +8,7 @@ representation selection with a second simplified implementation.
 from __future__ import annotations
 
 import argparse
+import json
 import shutil
 import sys
 from pathlib import Path
@@ -46,6 +47,24 @@ def _next_version_id(index: TemporalIndex) -> str:
     while f"v{number}" in used:
         number += 1
     return f"v{number}"
+
+
+def _hit_to_dict(hit) -> dict:
+    evidence = hit.evidence
+    return {
+        "version_id": hit.version_id,
+        "timestamp": hit.timestamp,
+        "file_path": hit.file_path,
+        "change_type": hit.change_type,
+        "previous_value_ref": evidence.previous_value_ref,
+        "current_value_ref": evidence.current_value_ref,
+        "source_sha256": evidence.source_sha256,
+        "verification_passed": evidence.verification_passed,
+    }
+
+
+def _query_payload(args: argparse.Namespace) -> dict:
+    return {"key": args.key, "file": args.file}
 
 
 def cmd_temporal_init(args: argparse.Namespace) -> int:
@@ -149,6 +168,16 @@ def cmd_temporal_timeline(args: argparse.Namespace) -> int:
     except Exception as exc:
         return _print_error(exc)
 
+    if args.json:
+        payload = {
+            "query": _query_payload(args),
+            "hit_count": len(hits),
+            "all_verified": all(hit.evidence.verification_passed for hit in hits),
+            "hits": [_hit_to_dict(hit) for hit in hits],
+        }
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+        return 0
+
     if not hits:
         print(f"No changes found for key '{args.key}'")
         return 0
@@ -189,6 +218,17 @@ def cmd_temporal_evidence(args: argparse.Namespace) -> int:
         hits = _verified_key_hits(args)
     except Exception as exc:
         return _print_error(exc)
+
+    if args.json:
+        evidence_rows = [_hit_to_dict(hit) for hit in hits]
+        payload = {
+            "query": _query_payload(args),
+            "evidence_count": len(evidence_rows),
+            "all_verified": all(row["verification_passed"] for row in evidence_rows),
+            "evidence": evidence_rows,
+        }
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+        return 0
 
     if not hits:
         print(f"No evidence found for key '{args.key}'")

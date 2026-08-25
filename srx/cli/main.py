@@ -343,6 +343,9 @@ def build_parser() -> argparse.ArgumentParser:
     temporal_timeline.add_argument("store")
     temporal_timeline.add_argument("--key", required=True)
     temporal_timeline.add_argument("--file", default=None)
+    temporal_timeline.add_argument(
+        "--json", action="store_true", help="Output verified timeline as JSON"
+    )
 
     temporal_reconstruct = temporal_sub.add_parser(
         "reconstruct", help="Selectively reconstruct one historical file"
@@ -358,6 +361,9 @@ def build_parser() -> argparse.ArgumentParser:
     temporal_evidence.add_argument("store")
     temporal_evidence.add_argument("--key", required=True)
     temporal_evidence.add_argument("--file", default=None)
+    temporal_evidence.add_argument(
+        "--json", action="store_true", help="Output verified evidence as JSON"
+    )
 
     return parser
 

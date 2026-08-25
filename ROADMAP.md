@@ -19,6 +19,7 @@ The primary product hypothesis is not universal compression. Structural and delt
 - Core CLI (`diff`, `reconstruct`, `verify`, `stats`);
 - Temporal/Evidence Python layer;
 - persistent Temporal CLI (`init`, `add`, `list`, `timeline`, `reconstruct`, `evidence`);
+- machine-readable `--json` output for temporal timeline/evidence queries;
 - persistent temporal metadata + CAS references across process restarts;
 - local-folder and local-Git connectors;
 - nested JSON key timeline;
@@ -35,7 +36,6 @@ The primary product hypothesis is not universal compression. Structural and delt
 - README/demo polish around the version-intelligence workflow;
 - third public real-history benchmark corpus;
 - more connector adversarial tests;
-- clearer machine-readable CLI output for temporal/evidence queries;
 - packaging cleanup for normal Python distribution.
 
 ## v0.2 candidates
