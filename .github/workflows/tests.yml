@@ -12,6 +12,8 @@ jobs:
         python-version: ["3.10", "3.13"]
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
@@ -23,6 +25,9 @@ jobs:
         run: python tests/run_all_tests.py
       - name: Temporal CLI demo
         run: bash demo/run_temporal_demo.sh
+      - name: Real Git history demo
+        if: matrix.python-version == '3.13'
+        run: python demo/real_history/run.py --repo . --limit 50
       - name: Frozen corpus hashes
         run: python benchmarks/verify_corpus_hashes.py
       - name: Frozen benchmark regression
