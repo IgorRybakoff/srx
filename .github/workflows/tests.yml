@@ -28,6 +28,9 @@ jobs:
       - name: Real Git history demo
         if: matrix.python-version == '3.13'
         run: python demo/real_history/run.py --repo . --limit 50
+      - name: Vite 50-commit real-history demo
+        if: matrix.python-version == '3.13'
+        run: bash demo/real_history/run_vite_50.sh
       - name: Frozen corpus hashes
         run: python benchmarks/verify_corpus_hashes.py
       - name: Frozen benchmark regression
