@@ -33,6 +33,33 @@ Does the reconstructed file still match its recorded SHA-256?
 
 The intended value is not compression by itself. Compression/delta selection is useful only insofar as it supports an exact, bounded, inspectable historical state layer.
 
+## 60-second proof
+
+A pinned CI demo runs SRX over 50 real first-parent commits from Vite v7.1.0 and queries the history of `packages/vite/package.json`:
+
+```text
+$ bash demo/real_history/run_vite_50.sh
+
+Imported real commits: 50
+Persistence reload: PASS (50 versions)
+
+packages/vite/package.json :: version
+7.0.6
+  ↓
+7.1.0-beta.0
+  ↓
+7.1.0-beta.1
+  ↓
+7.1.0
+
+Verified evidence: 4/4
+SRX verification: PASS
+bit-perfect vs git show: PASS
+source SHA match: PASS
+```
+
+This is a real-history product demonstration, not a compression benchmark.
+
 ## How it works
 
 ```text
@@ -79,6 +106,7 @@ The intended value is not compression by itself. Compression/delta selection is 
 - file-level selective historical reconstruction;
 - evidence resolution through actual reconstruction + independent source SHA-256;
 - persistent temporal state across process restarts;
+- machine-readable JSON for temporal timeline/evidence queries;
 - local-folder and local-Git connectors;
 - Core CLI: `srx diff`, `srx reconstruct`, `srx verify`, `srx stats`;
 - Persistent Temporal CLI: `init`, `add`, `list`, `timeline`, `reconstruct`, `evidence`.
@@ -142,6 +170,50 @@ bash demo/run_temporal_demo.sh
 ```
 
 The CI demo verifies that the reconstructed historical file is byte-for-byte identical to the original and that SHA-256 verification passes.
+
+### Machine-readable temporal output
+
+`timeline` and `evidence` support `--json`. The JSON is emitted only after the same reconstruction + SHA verification path used by the human-readable commands.
+
+```bash
+srx temporal timeline ./history \
+  --key database.pool_size \
+  --file config.json \
+  --json
+```
+
+Example shape:
+
+```json
+{
+  "query": {
+    "key": "database.pool_size",
+    "file": "config.json"
+  },
+  "hit_count": 3,
+  "all_verified": true,
+  "hits": [
+    {
+      "version_id": "v2",
+      "file_path": "config.json",
+      "change_type": "value_changed",
+      "previous_value_ref": "4",
+      "current_value_ref": "16",
+      "source_sha256": "...",
+      "verification_passed": true
+    }
+  ]
+}
+```
+
+The evidence command exposes the same verified records under an `evidence` array:
+
+```bash
+srx temporal evidence ./history \
+  --key database.pool_size \
+  --file config.json \
+  --json
+```
 
 ### Real Git history demo
 
@@ -249,7 +321,7 @@ python benchmarks/verify_corpus_hashes.py
 python benchmarks/verify_frozen_regression.py
 ```
 
-The current public gate contains **57 unit/integration tests**. CI runs on Python 3.10 and 3.13, executes the Temporal CLI demo, runs both the repository-history and pinned Vite 50-commit demos on Python 3.13, verifies 16 frozen corpus hashes, and checks the frozen benchmark regression.
+The current public gate contains **58 unit/integration tests**. CI runs on Python 3.10 and 3.13, executes the Temporal CLI demo, runs both the repository-history and pinned Vite 50-commit demos on Python 3.13, verifies 16 frozen corpus hashes, and checks the frozen benchmark regression.
 
 ## Project direction
 
