@@ -143,6 +143,18 @@ bash demo/run_temporal_demo.sh
 
 The CI demo verifies that the reconstructed historical file is byte-for-byte identical to the original and that SHA-256 verification passes.
 
+### Real Git history demo
+
+SRX also ships a second demo that does **not** create synthetic snapshots. It reads first-parent commits from an actual local Git repository through `GitRepoConnector`, ingests a bounded real-history slice, persists and reloads the temporal index, verifies file-history evidence, automatically looks for a changing nested JSON key, and reconstructs one historical file byte-for-byte against `git show`.
+
+Run it against this repository:
+
+```bash
+python demo/real_history/run.py --repo . --limit 50
+```
+
+The demo reports the actual number of available/imported commits rather than assuming a fixed corpus size. CI checks this path against the repository's own Git history.
+
 ### Core CLI
 
 The lower-level record CLI remains available:
@@ -211,11 +223,12 @@ See [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md).
 ```bash
 python tests/run_all_tests.py
 bash demo/run_temporal_demo.sh
+python demo/real_history/run.py --repo . --limit 50
 python benchmarks/verify_corpus_hashes.py
 python benchmarks/verify_frozen_regression.py
 ```
 
-The current public gate contains **57 unit/integration tests**. CI runs on Python 3.10 and 3.13, executes the Temporal CLI demo, verifies 16 frozen corpus hashes, and checks the frozen benchmark regression.
+The current public gate contains **57 unit/integration tests**. CI runs on Python 3.10 and 3.13, executes the Temporal CLI demo, runs the real-Git-history demo on Python 3.13, verifies 16 frozen corpus hashes, and checks the frozen benchmark regression.
 
 ## Project direction
 
