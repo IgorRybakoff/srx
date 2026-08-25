@@ -145,15 +145,35 @@ The CI demo verifies that the reconstructed historical file is byte-for-byte ide
 
 ### Real Git history demo
 
-SRX also ships a second demo that does **not** create synthetic snapshots. It reads first-parent commits from an actual local Git repository through `GitRepoConnector`, ingests a bounded real-history slice, persists and reloads the temporal index, verifies file-history evidence, automatically looks for a changing nested JSON key, and reconstructs one historical file byte-for-byte against `git show`.
+SRX also ships demos that do **not** create synthetic snapshots. They read actual first-parent commits through `GitRepoConnector`, ingest real project history, persist and reload the temporal index, verify evidence, and reconstruct historical files byte-for-byte against `git show`.
 
-Run it against this repository:
+Run against any local repository:
 
 ```bash
 python demo/real_history/run.py --repo . --limit 50
 ```
 
-The demo reports the actual number of available/imported commits rather than assuming a fixed corpus size. CI checks this path against the repository's own Git history.
+A pinned 50-commit Vite v7.1.0 demo is included for a larger real project:
+
+```bash
+bash demo/real_history/run_vite_50.sh
+```
+
+Observed CI result for the pinned Vite run:
+
+```text
+Imported real commits: 50
+Tracked paths: README.md, packages/vite/package.json
+Persistence reload: PASS (50 versions)
+Nested key: packages/vite/package.json :: version
+7.0.6 -> 7.1.0-beta.0 -> 7.1.0-beta.1 -> 7.1.0
+Verified evidence: 4/4
+SRX verification: PASS
+bit-perfect vs git show: PASS
+source SHA match: PASS
+```
+
+This is a product demonstration, not a compression benchmark. The external project is pinned to Vite v7.1.0 so the demonstrated history does not drift with Vite `HEAD`.
 
 ### Core CLI
 
@@ -224,11 +244,12 @@ See [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md).
 python tests/run_all_tests.py
 bash demo/run_temporal_demo.sh
 python demo/real_history/run.py --repo . --limit 50
+bash demo/real_history/run_vite_50.sh
 python benchmarks/verify_corpus_hashes.py
 python benchmarks/verify_frozen_regression.py
 ```
 
-The current public gate contains **57 unit/integration tests**. CI runs on Python 3.10 and 3.13, executes the Temporal CLI demo, runs the real-Git-history demo on Python 3.13, verifies 16 frozen corpus hashes, and checks the frozen benchmark regression.
+The current public gate contains **57 unit/integration tests**. CI runs on Python 3.10 and 3.13, executes the Temporal CLI demo, runs both the repository-history and pinned Vite 50-commit demos on Python 3.13, verifies 16 frozen corpus hashes, and checks the frozen benchmark regression.
 
 ## Project direction
 
