@@ -5,6 +5,7 @@ Commands:
 - srx reconstruct <record-file> [--ref <ref-file>] -o <output-file>
 - srx verify <record-file> [--ref <ref-file>]
 - srx stats <record-file>
+- srx temporal <init|add|list|timeline|reconstruct|evidence> ...
 """
 
 from __future__ import annotations
@@ -316,6 +317,48 @@ def build_parser() -> argparse.ArgumentParser:
     stat_p.add_argument("record", help="Path to SRX record file")
     stat_p.add_argument("--json", action="store_true", help="Output results in JSON format")
 
+    # temporal namespace
+    temporal_p = subparsers.add_parser(
+        "temporal", help="Persistent temporal/evidence queries and reconstruction"
+    )
+    temporal_sub = temporal_p.add_subparsers(
+        dest="temporal_command", required=True, help="Temporal commands"
+    )
+
+    temporal_init = temporal_sub.add_parser("init", help="Initialize a temporal store")
+    temporal_init.add_argument("store")
+    temporal_init.add_argument(
+        "--force", action="store_true", help="Reinitialize store and remove its old CAS"
+    )
+
+    temporal_add = temporal_sub.add_parser("add", help="Add a snapshot as a new version")
+    temporal_add.add_argument("store")
+    temporal_add.add_argument("snapshot")
+    temporal_add.add_argument("-m", "--message", required=True)
+
+    temporal_list = temporal_sub.add_parser("list", help="List committed versions")
+    temporal_list.add_argument("store")
+
+    temporal_timeline = temporal_sub.add_parser("timeline", help="Query nested key history")
+    temporal_timeline.add_argument("store")
+    temporal_timeline.add_argument("--key", required=True)
+    temporal_timeline.add_argument("--file", default=None)
+
+    temporal_reconstruct = temporal_sub.add_parser(
+        "reconstruct", help="Selectively reconstruct one historical file"
+    )
+    temporal_reconstruct.add_argument("store")
+    temporal_reconstruct.add_argument("version")
+    temporal_reconstruct.add_argument("--file", required=True)
+    temporal_reconstruct.add_argument("-o", "--output", required=True)
+
+    temporal_evidence = temporal_sub.add_parser(
+        "evidence", help="Resolve verified evidence for a nested key"
+    )
+    temporal_evidence.add_argument("store")
+    temporal_evidence.add_argument("--key", required=True)
+    temporal_evidence.add_argument("--file", default=None)
+
     return parser
 
 
@@ -336,6 +379,10 @@ def cli_entry(args: list[str] | None = None) -> int:
         return cmd_verify(parsed_args)
     elif parsed_args.command == "stats":
         return cmd_stats(parsed_args)
+    elif parsed_args.command == "temporal":
+        from srx.cli.temporal import dispatch_temporal
+
+        return dispatch_temporal(parsed_args)
 
     parser.print_help()
     return 1

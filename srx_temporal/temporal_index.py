@@ -35,6 +35,24 @@ class TemporalIndex:
         self._structural_changes: dict[str, list[StructuralChange]] = {}
         self._order: list[str] = []  # version_ids in insertion order
 
+    @property
+    def cas(self) -> ContentAddressableStore:
+        """Read-only access to the content-addressable store."""
+        return self._cas
+
+    def iter_committed(self):
+        """Yield committed state in deterministic causal order.
+
+        Each item is ``(manifest, file_changes, structural_changes)``. Tuples
+        are returned for the change collections so persistence callers cannot
+        mutate the index through this read-only view.
+        """
+        for version_id in self._order:
+            yield (
+                self._manifests[version_id],
+                tuple(self._file_changes[version_id]),
+                tuple(self._structural_changes[version_id]),
+            )
 
     def bind_evidence_resolver(self, resolver) -> None:
         """Bind the verifier used before Evidence leaves the index.
