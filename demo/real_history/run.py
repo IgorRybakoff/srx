@@ -4,13 +4,15 @@ The demo ingests a bounded first-parent slice of real Git history through the
 existing GitRepoConnector + SRX temporal engine. It does not generate synthetic
 snapshots. After persistence reload it:
 
-1. shows verified file history for README.md (or a fallback tracked file),
-2. automatically discovers one JSON file/key with the richest real change
-   history when available,
+1. shows verified file history for a tracked real file,
+2. discovers one changing nested JSON key when a JSON file is available,
 3. reconstructs one historical file exactly and compares it to `git show`.
 
-Usage:
+Examples:
     python demo/real_history/run.py --repo . --limit 50
+    python demo/real_history/run.py --repo /path/to/vite --limit 50 \
+        --track README.md --track packages/vite/package.json \
+        --json-file packages/vite/package.json
 """
 
 from __future__ import annotations
@@ -94,6 +96,7 @@ def _flatten_json(value, prefix: str = "") -> dict[str, str]:
 def _discover_json_key(
     base: GitRepoConnector,
     commits: list[str],
+    candidate_paths: list[str] | None = None,
     max_candidates: int = 8,
 ) -> tuple[str, str, int] | None:
     """Find a real JSON file/key with the most value transitions."""
@@ -107,7 +110,15 @@ def _discover_json_key(
             if path.endswith(".json"):
                 path_counts[path] += 1
 
-    candidates = [path for path, _ in path_counts.most_common(max_candidates)]
+    if candidate_paths:
+        candidates = [
+            path
+            for path in candidate_paths
+            if any(path in files for files in files_by_commit.values())
+        ]
+    else:
+        candidates = [path for path, _ in path_counts.most_common(max_candidates)]
+
     best: tuple[str, str, int] | None = None
 
     for path in candidates:
@@ -148,6 +159,10 @@ def _discover_json_key(
     return best
 
 
+def _path_exists_in_slice(base: GitRepoConnector, commits: list[str], path: str) -> bool:
+    return any(path in set(base.list_files(commit)) for commit in commits)
+
+
 def _choose_reconstruct_target(index: TemporalIndex, preferred_path: str) -> tuple[str, str]:
     for manifest in index.list_versions():
         if any(entry.path == preferred_path for entry in manifest.files):
@@ -162,6 +177,17 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="SRX real Git history demo")
     parser.add_argument("--repo", default=".", help="Local Git repository path")
     parser.add_argument("--limit", type=int, default=50, help="Max first-parent commits to ingest")
+    parser.add_argument(
+        "--track",
+        action="append",
+        default=[],
+        help="Track only this path (repeatable). Defaults to README/ROADMAP/pyproject when present.",
+    )
+    parser.add_argument(
+        "--json-file",
+        default=None,
+        help="Restrict nested-key discovery to this JSON file.",
+    )
     parser.add_argument(
         "--work-dir",
         default="demo/.real_history_work",
@@ -178,18 +204,19 @@ def main() -> int:
     total_commits, commits = _first_parent_commits(repo, args.limit)
     base = GitRepoConnector(repo)
 
-    json_choice = _discover_json_key(base, commits)
-    preferred_paths = ["README.md", "ROADMAP.md", "pyproject.toml"]
+    json_candidates = [args.json_file] if args.json_file else None
+    json_choice = _discover_json_key(base, commits, candidate_paths=json_candidates)
+
+    requested_paths = args.track or ["README.md", "ROADMAP.md", "pyproject.toml"]
     allowed_paths = {
-        path
-        for path in preferred_paths
-        if any(path in set(base.list_files(commit)) for commit in commits)
+        path for path in requested_paths if _path_exists_in_slice(base, commits, path)
     }
-    if json_choice is not None:
+    if args.json_file and _path_exists_in_slice(base, commits, args.json_file):
+        allowed_paths.add(args.json_file)
+    elif json_choice is not None:
         allowed_paths.add(json_choice[0])
 
     if not allowed_paths:
-        # Last-resort: track the first file from the newest selected commit.
         newest_files = base.list_files(commits[-1])
         if not newest_files:
             raise SystemExit("selected Git history contains no files")
@@ -235,7 +262,11 @@ def main() -> int:
     print(f"Persistence reload: PASS ({len(versions)} versions)")
     print()
 
-    file_path = "README.md" if "README.md" in allowed_paths else sorted(allowed_paths)[0]
+    preferred_timeline = next(
+        (path for path in requested_paths if path in allowed_paths),
+        sorted(allowed_paths)[0],
+    )
+    file_path = preferred_timeline
     file_hits = loaded.timeline_by_file(file_path)
     verified_file_hits = sum(hit.evidence.verification_passed for hit in file_hits)
     print(f"File timeline: {file_path}")
@@ -248,6 +279,8 @@ def main() -> int:
         )
     print()
 
+    key_hits = []
+    verified_key_hits = 0
     if json_choice is not None:
         json_path, key_path, observed_transitions = json_choice
         key_hits = loaded.timeline_by_key(key_path, file_path=json_path)
@@ -286,6 +319,8 @@ def main() -> int:
     if not result.verification_passed or result.bytes_data != original or result.sha256 != original_sha:
         return 1
     if file_hits and verified_file_hits != len(file_hits):
+        return 1
+    if key_hits and verified_key_hits != len(key_hits):
         return 1
 
     print()
